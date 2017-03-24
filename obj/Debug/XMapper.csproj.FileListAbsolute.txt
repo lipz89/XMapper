@@ -1,0 +1,5 @@
+D:\tests\Tester\XMapper\bin\Debug\XMapper.dll
+D:\tests\Tester\XMapper\bin\Debug\XMapper.pdb
+D:\tests\Tester\XMapper\obj\Debug\XMapper.dll
+D:\tests\Tester\XMapper\obj\Debug\XMapper.pdb
+D:\tests\Tester\XMapper\obj\Debug\XMapper.csprojResolveAssemblyReference.cache
