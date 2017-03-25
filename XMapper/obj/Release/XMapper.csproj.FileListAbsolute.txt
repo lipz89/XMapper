@@ -1,5 +1,0 @@
-D:\tests\Tester\XMapper\bin\Release\XMapper.dll
-D:\tests\Tester\XMapper\bin\Release\XMapper.pdb
-D:\tests\Tester\XMapper\obj\Release\XMapper.csprojResolveAssemblyReference.cache
-D:\tests\Tester\XMapper\obj\Release\XMapper.dll
-D:\tests\Tester\XMapper\obj\Release\XMapper.pdb
