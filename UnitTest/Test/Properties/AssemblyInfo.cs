@@ -2,16 +2,14 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using XMapper.Builder;
-
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Mapper")]
+[assembly: AssemblyTitle("Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Mapper")]
+[assembly: AssemblyProduct("Test")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +20,7 @@ using XMapper.Builder;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("53395937-87e0-4b42-a403-b6ad95579410")]
+[assembly: Guid("9da23e02-f822-4a7a-8777-857b2a48175e")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
@@ -36,5 +34,3 @@ using XMapper.Builder;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("Test")]
-[assembly: InternalsVisibleTo(CodeBuilder.AssemblyName)]

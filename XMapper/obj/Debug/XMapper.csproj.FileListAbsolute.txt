@@ -3,3 +3,9 @@ D:\tests\Tester\XMapper\bin\Debug\XMapper.pdb
 D:\tests\Tester\XMapper\obj\Debug\XMapper.dll
 D:\tests\Tester\XMapper\obj\Debug\XMapper.pdb
 D:\tests\Tester\XMapper\obj\Debug\XMapper.csprojResolveAssemblyReference.cache
+E:\git\XMapper\XMapper\bin\Debug\XMapper.dll
+E:\git\XMapper\XMapper\bin\Debug\XMapper.pdb
+E:\git\XMapper\XMapper\obj\Debug\XMapper.csprojResolveAssemblyReference.cache
+E:\git\XMapper\XMapper\obj\Debug\XMapper.dll
+E:\git\XMapper\XMapper\obj\Debug\XMapper.pdb
+E:\git\XMapper\XMapper\bin\Debug\XMapper.XML
