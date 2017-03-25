@@ -77,7 +77,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XMapper\XMapper.csproj">
+    <ProjectReference Include="..\XMapper\XMapper.csproj">
       <Project>{53395937-87e0-4b42-a403-b6ad95579410}</Project>
       <Name>XMapper</Name>
     </ProjectReference>
