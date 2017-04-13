@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Nelibur.ObjectMapper;
-using Xunit;
-using Test;
+
 using Test.Common;
 
-namespace TestMapper
+using Xunit;
+
+namespace Test
 {
-    class TestMapper
+    public class TestMapper
     {
 
         [Fact]
-        public void TextXMapper()
+        public void TestXMapper()
         {
             string n = "___";
             XMapper.Mapper.Init(cfg =>
@@ -98,15 +99,23 @@ namespace TestMapper
                 return r;
             };
 
-            var count = 1;
+            var count = 10;
 
-            var source = CreateData2(1000);
+            var source = CreateData2(10);
 
-            CodeTimer.Time("TinyMapper", count, () =>
+            //CodeTimer.Time("TinyMapper", count, () =>
+            //               {
+            //                   foreach (var simple in source)
+            //                   {
+            //                       TestUse<Simple, SimpleModel>(simple, TinyMapper.Map, TinyMapper.Map);
+            //                   }
+            //               });
+
+            CodeTimer.Time("CodeMapper", count, () =>
                            {
                                foreach (var simple in source)
                                {
-                                   TestUse<Simple, SimpleModel>(simple, TinyMapper.Map, TinyMapper.Map);
+                                   TestUse<Simple, SimpleModel>(simple, map, map2);
                                }
                            });
 
@@ -123,14 +132,6 @@ namespace TestMapper
                                foreach (var simple in source)
                                {
                                    TestUse<Simple, SimpleModel>(simple, AutoMapper.Mapper.Map, AutoMapper.Mapper.Map);
-                               }
-                           });
-
-            CodeTimer.Time("CodeMapper", count, () =>
-                           {
-                               foreach (var simple in source)
-                               {
-                                   TestUse<Simple, SimpleModel>(simple, map, map2);
                                }
                            });
 
@@ -151,17 +152,17 @@ namespace TestMapper
                                              cfg.CreateMap<ItemModel, Item>();
                                          });
 
-            TinyMapper.Bind<Simple, SimpleModel>(cfg =>
-                                                 {
-                                                     cfg.Bind(x => x.FirstName, x => x.NickName);
-                                                 });
-            TinyMapper.Bind<SimpleModel, Simple>(cfg =>
-                                                 {
-                                                     cfg.Bind(x => x.NickName, x => x.FirstName);
-                                                 });
+            //TinyMapper.Bind<Simple, SimpleModel>(cfg =>
+            //                                     {
+            //                                         cfg.Bind(x => x.FirstName, x => x.NickName);
+            //                                     });
+            //TinyMapper.Bind<SimpleModel, Simple>(cfg =>
+            //                                     {
+            //                                         cfg.Bind(x => x.NickName, x => x.FirstName);
+            //                                     });
 
-            TinyMapper.Bind<Item, ItemModel>();
-            TinyMapper.Bind<ItemModel, Item>();
+            //TinyMapper.Bind<Item, ItemModel>();
+            //TinyMapper.Bind<ItemModel, Item>();
 
             XMapper.Mapper.Init(cfg =>
                                 {

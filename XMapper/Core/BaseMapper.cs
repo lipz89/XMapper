@@ -9,6 +9,7 @@ namespace XMapper.Core
     /// </summary>
     public abstract class BaseMapper
     {
+        internal virtual bool NeedSetMaps{get { return false; }}
         internal object Map(object source, object target = null)
         {
             return MapCore(source, target);

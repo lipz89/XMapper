@@ -18,6 +18,7 @@ namespace XMapper.Core
         private static readonly Type baseCollectionMapper = typeof(CollectionMapper<,>);
         private static readonly Type baseCollectionOfMapper = typeof(CollectionMapper<,,>);
         private static readonly Type baseCollectionOfOfMapper = typeof(CollectionMapper<,,,>);
+        internal static readonly MethodInfo MapperMethod = typeof(MapperRoute).GetMethods(BindingFlags.Static | BindingFlags.NonPublic).FirstOrDefault(x => x.Name == "Map" && x.GetParameters().Length == 2);
 
         internal static void Init(MapperConfig config)
         {
@@ -46,24 +47,9 @@ namespace XMapper.Core
                 throw new InvalidCastException("空对象不能转换为值类型。");
             }
             var typeSource = source.GetType();
-            if (source is TTarget || typeResult.IsAssignableFrom(typeSource))
-            {
-                return (TTarget)source;
-            }
-            var key = typeSource.GetHashCode() ^ source.GetHashCode();
-            TTarget result;
-
-            if (!Cache.TryGet<TTarget>(key, out result))
-            {
-                var mi = typeof(MapperInstances<,>).MakeGenericType(typeSource, typeResult);
-                var pi = mi.GetProperty("Instance", BindingFlags.Static | BindingFlags.NonPublic);
-                var instance = pi?.GetValue(null) as BaseMapper;
-
-                result = (TTarget)instance.Map(source);
-                Cache.Set<TTarget>(key, result);
-                instance.SetMaps(source, result);
-            }
-            return result;
+            var mi = MapperRoute.MapperMethod.MakeGenericMethod(typeSource, typeResult);
+            var target = mi.Invoke(null, new object[] { source, null });
+            return (TTarget)target;
         }
 
         internal static TTarget Map<TSource, TTarget>(TSource source, TTarget result = default(TTarget))
@@ -83,15 +69,18 @@ namespace XMapper.Core
 
             var key = typeSource.GetHashCode() ^ source.GetHashCode();
 
-            if (!Cache.TryGet<TTarget>(key, out result))
+            var instance = MapperInstances<TSource, TTarget>.Instance;
+            if (instance.NeedSetMaps)
             {
-                var instance = MapperInstances<TSource, TTarget>.Instance;
-
-                result = instance.Map(source, result);
-                Cache.Set<TTarget>(key, result);
-                instance.SetMaps(source, result);
+                if (!Cache.TryGet<TTarget>(key, out result))
+                {
+                    result = instance.Map(source, result);
+                    Cache.Set<TTarget>(key, result);
+                    instance.SetMaps(source, result);
+                }
+                return result;
             }
-            return result;
+            return instance.Map(source, result);
         }
 
         private static BaseMapper<TSource, TTarget> GetMapper<TSource, TTarget>()
@@ -188,7 +177,7 @@ namespace XMapper.Core
 
         internal static void Clear()
         {
-            Cache.Cleaner.Value.ForEach(x => x());
+            Cache.Cleaner.Value?.ForEach(x => x());
         }
 
         private static class MapperInstances<TSource, TTarget>
@@ -251,6 +240,16 @@ namespace XMapper.Core
                 {
                     Inner<T>.Dictionary.Add(key, t);
                 }
+            }
+
+            internal static T Get<T>(int key, Func<T> creator)
+            {
+                if (!Inner<T>.Dictionary.ContainsKey(key))
+                {
+                    var t = creator();
+                    Inner<T>.Dictionary.Add(key, t);
+                }
+                return Inner<T>.Dictionary[key];
             }
         }
     }

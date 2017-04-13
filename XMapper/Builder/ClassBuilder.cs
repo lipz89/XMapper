@@ -15,6 +15,7 @@ namespace XMapper.Builder
         private const string formatClass =
             "\tinternal sealed class Mapper{0} : XMapper.Core.ClassMapper<{1}, {2}>\r\n\t" +
             "{{\r\n\t\t" +
+                "{7}" +
                 "protected override {2} CreateTargetInstance()\r\n\t\t" +
                 "{{\r\n\t\t\t" +
                     "return new {2}();\r\n\t\t" +
@@ -54,7 +55,7 @@ namespace XMapper.Builder
                 .Select(x => x.CreateCode());
             var propertyMaps = members?
                 .Where(x => x.Pair.IsUseMap)
-                .Select(x => x.CreateCode());
+                .Select(x => x.CreateCode()).ToList();
 
             return string.Format(formatClass,
                                  Guid.NewGuid().ToString("N"),
@@ -63,7 +64,8 @@ namespace XMapper.Builder
                                  varSource,
                                  varResult,
                                  Join(propertySets),
-                                 Join(propertyMaps));
+                                 Join(propertyMaps),
+                                 propertyMaps.IsNullOrEmpty() ? "" : "internal override bool NeedSetMaps{get { return true; }}\r\n\t\t");
         }
 
         private string Join(IEnumerable<string> codes)

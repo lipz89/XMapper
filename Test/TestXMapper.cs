@@ -1,11 +1,11 @@
 ﻿using System;
 
-using Xunit;
-
 using XMapper;
 using XMapper.Core;
 
-namespace XCommonTest.UnitTest
+using Xunit;
+
+namespace Test
 {
     public class TestXMapper
     {
