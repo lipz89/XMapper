@@ -33,7 +33,7 @@ namespace XMapper.Common
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            if (node.Member.ReflectedType == typeof(DTO))
+            if (node.Member.ReflectedType.IsAssignableFrom(typeof(DTO)))
             {
                 if (maps.IsNullOrEmpty())
                 {
@@ -80,7 +80,7 @@ namespace XMapper.Common
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (node.Method.ReflectedType == typeof(DTO))
+            if (node.Method.ReflectedType.IsAssignableFrom(typeof(DTO)))
             {
                 var name = node.Method.Name;
                 var pi = typeof(T).GetMethod(name);
