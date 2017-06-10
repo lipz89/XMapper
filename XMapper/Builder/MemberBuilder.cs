@@ -5,12 +5,12 @@ namespace XMapper.Builder
 {
     internal class MemberBuilder : BaseBuilder
     {
-        private const string formatSetter = "{0} = {1};";
+        private const string formatSetter = "{0} = {1}";
         private const string formatProperty = "{0}.{1}";
         private const string formatExplicitConverter = "({2})({0}.{1})";
         private const string formatInstance = "{0}";
         private const string formatSolver = "{1}({0})";
-        private const string formatMapper = "XMapper.Core.MapperRoute.Map<{3}, {4}>({0}.{1},{2});";
+        private const string formatMapper = "XMapper.Core.MapperRoute.Map<{3}, {4}>({0}.{1},{2})";
 
         private readonly string varSource;
 
@@ -64,10 +64,17 @@ namespace XMapper.Builder
 
         internal override string CreateCode()
         {
-            var code = CreateCore();
+            var code = CreateCore() + ";";
             if (!string.IsNullOrWhiteSpace(code))
             {
-                return string.Format(formatSetter, resultProperty, code);
+                if (Pair.CanWrite)
+                {
+                    return string.Format(formatSetter, resultProperty, code);
+                }
+                if (Pair.IsUseClassMap)
+                {
+                    return code;
+                }
             }
             return string.Empty;
         }

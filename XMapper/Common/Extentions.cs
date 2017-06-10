@@ -196,7 +196,7 @@ namespace XMapper.Common
 
             if (memberInfo is PropertyInfo)
             {
-                return (memberInfo as PropertyInfo).CanRead;
+                return (memberInfo as PropertyInfo).GetMethod?.IsPublic == true;
             }
             return memberInfo is FieldInfo;
         }
@@ -206,7 +206,7 @@ namespace XMapper.Common
 
             if (memberInfo is PropertyInfo)
             {
-                return (memberInfo as PropertyInfo).CanWrite;
+                return (memberInfo as PropertyInfo).SetMethod?.IsPublic == true;
             }
             return memberInfo is FieldInfo;
         }

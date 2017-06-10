@@ -26,6 +26,7 @@ namespace XMapper.Config
         /// </summary>
         public bool IsUseInstance { get; internal set; }
         internal bool IsUseMap { get; set; }
+        internal bool IsUseClassMap { get; set; }
         /// <summary>
         /// 目标属性名称
         /// </summary>
@@ -56,6 +57,8 @@ namespace XMapper.Config
         internal bool IsUseSupportedConverter { get; private set; }
         internal bool IsNeedCollectionMapper { get; private set; }
 
+        internal bool CanWrite { get; set; }
+
         internal void CheckConvert()
         {
             if (IsIgnore)
@@ -71,19 +74,19 @@ namespace XMapper.Config
                 return;
             }
 
-            TypeConverter fromConverter = TypeDescriptor.GetConverter(SourcePropertyType);
-            if (fromConverter.CanConvertTo(ResultPropertyType))
-            {
-                IsUseExplicitConverter = true;
-                return;
-            }
+            //TypeConverter fromConverter = TypeDescriptor.GetConverter(SourcePropertyType);
+            //if (fromConverter.CanConvertTo(ResultPropertyType))
+            //{
+            //    IsUseExplicitConverter = true;
+            //    return;
+            //}
 
-            TypeConverter toConverter = TypeDescriptor.GetConverter(ResultPropertyType);
-            if (toConverter.CanConvertFrom(SourcePropertyType))
-            {
-                IsUseExplicitConverter = true;
-                return;
-            }
+            //TypeConverter toConverter = TypeDescriptor.GetConverter(ResultPropertyType);
+            //if (toConverter.CanConvertFrom(SourcePropertyType))
+            //{
+            //    IsUseExplicitConverter = true;
+            //    return;
+            //}
 
             //if (SourcePropertyType.NonNullableType() == ResultPropertyType.NonNullableType())
             //{
@@ -100,6 +103,10 @@ namespace XMapper.Config
             //{
             //    IsNeedCollectionMapper = true;
             //}
+            if (!ResultPropertyType.IsValueType)
+            {
+                IsUseClassMap = true;
+            }
             IsUseMap = true;
         }
     }

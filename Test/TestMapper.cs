@@ -18,16 +18,16 @@ namespace Test
         {
             string n = "___";
             XMapper.Mapper.Init(cfg =>
-                                {
-                                    cfg.Map<Simple, SimpleModel>()
-                                       .Bind(x => x.NickName, x => x.FirstName)
-                                       .Bind(x => x.FullName, x => x.FirstName + "." + x.Name + n);
-                                    cfg.Map<SimpleModel, Simple>()
-                                       .Bind(x => x.FirstName, x => x.NickName);
+            {
+                cfg.Map<Simple, SimpleModel>()
+                    .Bind(x => x.NickName, x => x.FirstName)
+                    .Bind(x => x.FullName, x => x.FirstName + "." + x.Name + n);
+                cfg.Map<SimpleModel, Simple>()
+                    .Bind(x => x.FirstName, x => x.NickName);
 
-                                    cfg.Map<Item, ItemModel>();
-                                    cfg.Map<ItemModel, Item>();
-                                });
+                cfg.Map<Item, ItemModel>();
+                cfg.Map<ItemModel, Item>();
+            });
 
             var simle = new Simple
             {
@@ -50,7 +50,7 @@ namespace Test
                 }
             };
 
-            simle.Item.Parent = simle;
+            //simle.Item.Parent = simle;
 
             var maps = XMapper.Mapper.Config.List;
 
@@ -63,12 +63,12 @@ namespace Test
         {
             InitConfig();
             var list = new MyList<Simple> { Index = 4, NextIndex = 7 };
-            list.AddRange(CreateData2(5));
+            list.AddRange(CreateData(5));
 
-            List<SimpleModel> result = TinyMapper.Map<MyList<Simple>, List<SimpleModel>>(list);
-            List<SimpleModel> result2 = TinyMapper.Map<MyList<Simple>, MyList<SimpleModel>>(list);
+            List<SimpleModel> result = XMapper.Mapper.Map<MyList<Simple>, List<SimpleModel>>(list);
+            List<SimpleModel> result2 = XMapper.Mapper.Map<MyList<Simple>, MyList<SimpleModel>>(list);
 
-            var l = TinyMapper.Map<List<SimpleModel>, List<Simple>>(result2);
+            var l = XMapper.Mapper.Map<List<SimpleModel>, List<Simple>>(result2);
         }
 
         [Fact]
@@ -77,7 +77,6 @@ namespace Test
             CodeTimer.Initialize();
 
             //TestSimple();
-            InitConfig();
             Func<Simple, SimpleModel, SimpleModel> map = (s, r) =>
             {
                 r = r ?? new SimpleModel();
@@ -99,41 +98,104 @@ namespace Test
                 return r;
             };
 
-            var count = 10;
+            var count = 100;
 
-            var source = CreateData2(10);
-
-            //CodeTimer.Time("TinyMapper", count, () =>
-            //               {
-            //                   foreach (var simple in source)
-            //                   {
-            //                       TestUse<Simple, SimpleModel>(simple, TinyMapper.Map, TinyMapper.Map);
-            //                   }
-            //               });
-
-            CodeTimer.Time("CodeMapper", count, () =>
-                           {
-                               foreach (var simple in source)
-                               {
-                                   TestUse<Simple, SimpleModel>(simple, map, map2);
-                               }
-                           });
-
-            CodeTimer.Time("XMapper", count, () =>
-                           {
-                               foreach (var simple in source)
-                               {
-                                   TestUse<Simple, SimpleModel>(simple, XMapper.Mapper.Map, XMapper.Mapper.Map);
-                               }
-                           });
+            var source = CreateData(100);
 
             CodeTimer.Time("AutoMapper", count, () =>
-                           {
-                               foreach (var simple in source)
-                               {
-                                   TestUse<Simple, SimpleModel>(simple, AutoMapper.Mapper.Map, AutoMapper.Mapper.Map);
-                               }
-                           });
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple, SimpleModel>(simple, AutoMapper.Mapper.Map, AutoMapper.Mapper.Map);
+                }
+            });
+
+            CodeTimer.Time("XMapper", count, () =>
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple, SimpleModel>(simple, XMapper.Mapper.Map, XMapper.Mapper.Map);
+                }
+            });
+
+            //CodeTimer.Time("TinyMapper", count, () =>
+            //{
+            //    foreach (var simple in source)
+            //    {
+            //        TestUse<Simple, SimpleModel>(simple, TinyMapper.Map, TinyMapper.Map);
+            //    }
+            //});
+
+            CodeTimer.Time("CodeMapper", count, () =>
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple, SimpleModel>(simple, map, map2);
+                }
+            });
+
+            Console.Read();
+        }
+        [Fact]
+        public void Test2()
+        {
+            CodeTimer.Initialize();
+
+            //TestSimple();
+            Func<Simple2, SimpleModel2, SimpleModel2> map = (s, r) =>
+            {
+                r = r ?? new SimpleModel2();
+                r.Name = s.Name;
+                r.ID = s.ID.ToCharArray();
+                r.LastName = s.LastName;
+                r.NickName = s.FirstName;
+                return r;
+            };
+            Func<SimpleModel2, Simple2, Simple2> map2 = (s, r) =>
+            {
+                r = r ?? new Simple2();
+                r.Name = s.Name;
+                r.ID = s.ID.ToString();
+                r.LastName = s.LastName;
+                r.FirstName = s.NickName;
+                return r;
+            };
+
+            var count = 100;
+
+            var source = CreateData2(100);
+
+            CodeTimer.Time("AutoMapper", count, () =>
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple2, SimpleModel2>(simple, AutoMapper.Mapper.Map, AutoMapper.Mapper.Map);
+                }
+            });
+
+            CodeTimer.Time("XMapper", count, () =>
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple2, SimpleModel2>(simple, XMapper.Mapper.Map, XMapper.Mapper.Map);
+                }
+            });
+
+            //CodeTimer.Time("TinyMapper", count, () =>
+            //{
+            //    foreach (var simple in source)
+            //    {
+            //        TestUse<Simple, SimpleModel>(simple, TinyMapper.Map, TinyMapper.Map);
+            //    }
+            //});
+
+            CodeTimer.Time("CodeMapper", count, () =>
+            {
+                foreach (var simple in source)
+                {
+                    TestUse<Simple2, SimpleModel2>(simple, map, map2);
+                }
+            });
 
             Console.Read();
         }
@@ -146,6 +208,14 @@ namespace Test
                                                 .ForMember(x => x.NickName, x => x.MapFrom(y => y.FirstName))
                                                 .ForMember(x => x.FullName, x => x.MapFrom(y => y.FirstName + "." + y.Name));
                                              cfg.CreateMap<SimpleModel, Simple>()
+                                                .ForMember(x => x.FirstName, x => x.MapFrom(y => y.NickName));
+
+                                             cfg.CreateMap<Simple2, SimpleModel2>()
+                                               .ForMember(x => x.ID, x => x.MapFrom(y => y.ID.ToCharArray()))
+                                               .ForMember(x => x.NickName, x => x.MapFrom(y => y.FirstName))
+                                               .ForMember(x => x.FullName, x => x.MapFrom(y => y.FirstName + "." + y.Name));
+                                             cfg.CreateMap<SimpleModel2, Simple2>()
+                                               .ForMember(x => x.ID, x => x.MapFrom(y => string.Join("",y)))
                                                 .ForMember(x => x.FirstName, x => x.MapFrom(y => y.NickName));
 
                                              cfg.CreateMap<Item, ItemModel>();
@@ -166,10 +236,19 @@ namespace Test
 
             XMapper.Mapper.Init(cfg =>
                                 {
+                                    cfg.Map<string, char[]>(x => x.ToCharArray());
+                                    cfg.Map<char[],string>(x=>string.Join("",x));
+
                                     cfg.Map<Simple, SimpleModel>()
                                        .Bind(x => x.NickName, x => x.FirstName)
                                        .Bind(x => x.FullName, x => x.FirstName + "." + x.Name);
                                     cfg.Map<SimpleModel, Simple>()
+                                       .Bind(x => x.FirstName, x => x.NickName);
+
+                                    cfg.Map<Simple2, SimpleModel2>()
+                                       .Bind(x => x.NickName, x => x.FirstName)
+                                       .Bind(x => x.FullName, x => x.FirstName + "." + x.Name);
+                                    cfg.Map<SimpleModel2, Simple2>()
                                        .Bind(x => x.FirstName, x => x.NickName);
 
                                     cfg.Map<Item, ItemModel>();
@@ -177,7 +256,7 @@ namespace Test
                                 });
         }
 
-        private List<Simple> CreateData2(int times = 1000)
+        private List<Simple> CreateData(int times = 1000)
         {
             var list = new List<Simple>();
             for (int i = 0; i < times; i++)
@@ -201,6 +280,22 @@ namespace Test
                                      ID = i + 1
                                  }
                              }
+                });
+            }
+            return list;
+        }
+
+        private List<Simple2> CreateData2(int times = 1000)
+        {
+            var list = new List<Simple2>();
+            for (int i = 0; i < times; i++)
+            {
+                list.Add(new Simple2()
+                {
+                    Name = "Name" + i,
+                    ID = Guid.NewGuid().ToString(),
+                    FirstName = "FirstName" + i,
+                    LastName = "LastName" + i,
                 });
             }
             return list;
@@ -246,7 +341,7 @@ namespace Test
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public Item Item { get; set; }
-        public IList<Item> Items { get; set; }
+        public List<Item> Items { get; set; }
     }
 
     public class SimpleModel
@@ -257,6 +352,25 @@ namespace Test
         public string NickName { get; set; }
         public string FullName { get; set; }
         public ItemModel Item { get; set; }
-        public ICollection<ItemModel> Items { get; set; }
+        public List<ItemModel> Items { get; set; }
+    }
+
+
+
+    public class Simple2
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+    }
+
+    public class SimpleModel2
+    {
+        public char[] ID { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string NickName { get; set; }
+        public string FullName { get; set; }
     }
 }

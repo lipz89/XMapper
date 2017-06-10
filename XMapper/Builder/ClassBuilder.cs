@@ -25,7 +25,7 @@ namespace XMapper.Builder
                     "{5}" +
                     "\r\n\t\t\treturn {4};\r\n\t\t" +
                 "}}\r\n\r\n\t\t" +
-                "public override void SetMapsCoreInner({1} {3}, {2} {4})\r\n\t\t" +
+                "protected override void SetMapsCoreInner({1} {3}, {2} {4})\r\n\t\t" +
                 "{{\r\n\t\t\t" +
                     "{6}" +
                     "\r\n\t\t" +
@@ -51,7 +51,7 @@ namespace XMapper.Builder
         private string CreateCore()
         {
             var propertySets = members?
-                .Where(x => !x.Pair.IsUseMap)
+                .Where(x => !x.Pair.IsUseMap && x.Pair.CanWrite)
                 .Select(x => x.CreateCode());
             var propertyMaps = members?
                 .Where(x => x.Pair.IsUseMap)

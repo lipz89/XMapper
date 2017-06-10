@@ -42,7 +42,7 @@ namespace XMapper.Config
         }
         /// <summary>
         /// 使用一个转换方法配置一个映射转换
-        /// 该转换的优先级高于普通类型对
+        /// 该转换的优先级高于普通配置
         /// </summary>
         /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TTarget">目标类型</typeparam>
@@ -64,7 +64,7 @@ namespace XMapper.Config
         }
         /// <summary>
         /// 使用一个转换类对象配置一个映射转换
-        /// 该转换的优先级高于普通类型对和转换方法的配置
+        /// 该转换的优先级最高
         /// </summary>
         /// <typeparam name="TSource">源类型</typeparam>
         /// <typeparam name="TTarget">目标类型</typeparam>
@@ -85,13 +85,17 @@ namespace XMapper.Config
             MapperRoute.RegisterMapper(mapper);
         }
 
-        public void Map<TItem, TTarget>(Func<List<TItem>, TTarget> mapper) where TTarget : IEnumerable<TItem>
+        public void MapList<TItem, TTarget>(Func<List<TItem>, TTarget> mapper) where TTarget : IEnumerable<TItem>
         {
             InnerMapper<TItem, TTarget>.Mapper = mapper;
         }
-        public void Map<TTarget>(Func<ArrayList, TTarget> mapper) where TTarget : IEnumerable
+        public void MapArray<TTarget>(Func<ArrayList, TTarget> mapper) where TTarget : IEnumerable
         {
             InnerMapper<TTarget>.Mapper = mapper;
+        }
+        public void MapDictionary<TKey,TItem,TTarget>(Func<Dictionary<TKey, TItem>, TTarget> mapper) where TTarget : IDictionary<TKey, TItem>
+        {
+            InnerDictionaruMapper<TKey, TItem, TTarget>.Mapper = mapper;
         }
 
         /// <summary>

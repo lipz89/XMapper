@@ -43,7 +43,9 @@ namespace XMapper.Core
             if (source == null)
             {
                 if (typeResult.IsClass || typeResult.IsNullable())
+                {
                     return default(TTarget);
+                }
                 throw new InvalidCastException("空对象不能转换为值类型。");
             }
             var typeSource = source.GetType();
@@ -59,19 +61,20 @@ namespace XMapper.Core
             if (source == null)
             {
                 if (typeResult.IsClass || typeResult.IsNullable())
+                {
                     return default(TTarget);
+                }
                 throw new InvalidCastException("空对象不能转换为值类型。");
             }
             if (source is TTarget || typeResult.IsAssignableFrom(typeSource))
             {
                 return (TTarget)(object)source;
             }
-
-            var key = typeSource.GetHashCode() ^ source.GetHashCode();
-
+            
             var instance = MapperInstances<TSource, TTarget>.Instance;
             if (instance.NeedSetMaps)
             {
+                var key = typeSource.GetHashCode() ^ source.GetHashCode();
                 if (!Cache.TryGet<TTarget>(key, out result))
                 {
                     result = instance.Map(source, result);

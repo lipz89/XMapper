@@ -231,6 +231,16 @@ namespace XMapper.Core
         {
             var list = EnumerableToList(source);
 
+            var coll = target as ICollection<TTargetItem>;
+            if (coll != null)
+            {
+                foreach (var item in list)
+                {
+                    coll.Add(item);
+                }
+                return target;
+            }
+
             if (list is TTarget)
                 return list as TTarget;
 
@@ -267,6 +277,16 @@ namespace XMapper.Core
         {
             var list = EnumerableToList(source);
 
+            var coll = target as IList;
+            if (coll != null)
+            {
+                foreach (var item in list)
+                {
+                    coll.Add(item);
+                }
+                return target;
+            }
+
             if (list is TTarget)
                 return list as TTarget;
 
@@ -294,6 +314,33 @@ namespace XMapper.Core
         where TSource : IDictionary<TSourceKey, TSourceItem>
         where TTarget : class, IDictionary<TTargetKey, TTargetItem>
     {
+        public override TTarget Map(TSource source, TTarget target)
+        {
+            var list = EnumerableToList(source);
+
+            if (target != null)
+            {
+                foreach (var item in list)
+                {
+                    target.Add(item.Key, item.Value);
+                }
+                return target;
+            }
+
+            Dictionary<TTargetKey, TTargetItem> dic = list.ToDictionary(x => x.Key, x => x.Value);
+
+            if (dic is TTarget)
+                return dic as TTarget;
+
+            var mapper = InnerDictionaruMapper<TTargetKey, TTargetItem, TTarget>.Mapper;
+            if (mapper != null)
+            {
+                return mapper(dic);
+            }
+
+            throw Error.Exception("没有到字典类型的映射：" + targetType.ObtainOriginalName());
+        }
+
         protected override KeyValuePair<TTargetKey, TTargetItem> ConvertItem(KeyValuePair<TSourceKey, TSourceItem> item)
         {
             return new KeyValuePair<TTargetKey, TTargetItem>(MapperRoute.Map<TSourceKey, TTargetKey>(item.Key), MapperRoute.Map<TSourceItem, TTargetItem>(item.Value));
@@ -316,8 +363,6 @@ namespace XMapper.Core
     {
         static InnerMapper()
         {
-            //InnerMapper<IList<TTargetItem>>.Mapper = x => x;
-            //InnerMapper<List<TTargetItem>>.Mapper = x => x;
             InnerMapper<TItem, TItem[]>.Mapper = x => x.ToArray();
             InnerMapper<TItem, IReadOnlyList<TItem>>.Mapper = x => x.AsReadOnly();
             InnerMapper<TItem, IReadOnlyCollection<TItem>>.Mapper = x => x.AsReadOnly();
@@ -331,5 +376,14 @@ namespace XMapper.Core
             InnerMapper<TItem, ConcurrentBag<TItem>>.Mapper = x => new ConcurrentBag<TItem>(x);
         }
         public static Func<List<TItem>, TTarget> Mapper { get; set; }
+    }
+    static class InnerDictionaruMapper<TKey, TItem, TTarget> where TTarget : IDictionary<TKey, TItem>
+    {
+        static InnerDictionaruMapper()
+        {
+            InnerDictionaruMapper<TKey, TItem, ConcurrentDictionary<TKey, TItem>>.Mapper = x => new ConcurrentDictionary<TKey, TItem>(x);
+            InnerDictionaruMapper<TKey, TItem, ReadOnlyDictionary<TKey, TItem>>.Mapper = x => new ReadOnlyDictionary<TKey, TItem>(x);
+        }
+        public static Func<Dictionary<TKey, TItem>, TTarget> Mapper { get; set; }
     }
 }

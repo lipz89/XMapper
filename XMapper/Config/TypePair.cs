@@ -41,7 +41,7 @@ namespace XMapper.Config
         protected internal virtual void InitMap()
         {
             var sourceProperties = ReflectionCache.GetMembers(SourceType).Where(x => x.CanRead()).ToList();
-            var resultProperties = ReflectionCache.GetMembers(ResultType).Where(x => x.CanWrite()).ToList();
+            var resultProperties = ReflectionCache.GetMembers(ResultType)/*.Where(x => x.CanWrite())*/.ToList();
 
             foreach (var accessor in resultProperties)
             {
@@ -62,7 +62,8 @@ namespace XMapper.Config
                     ResultPropertyName = resultProperty.Name,
                     SourcePropertyName = sourceProperty.Name,
                     ResultPropertyType = resultProperty.ThisType(),
-                    SourcePropertyType = sourceProperty.ThisType()
+                    SourcePropertyType = sourceProperty.ThisType(),
+                    CanWrite = resultProperty.CanWrite()
                 };
 
                 this._propertyPairs.Add(pair);
@@ -137,8 +138,8 @@ namespace XMapper.Config
 
             var resultName = resultProperty.GetPropertyName();
 
-            if (!((MemberExpression)resultProperty.Body).Member.CanWrite())
-                throw Error.ArgumentException("指定的属性 " + resultName + " 不可写。", nameof(resultProperty));
+            //if (!((MemberExpression)resultProperty.Body).Member.CanWrite())
+            //    throw Error.ArgumentException("指定的属性 " + resultName + " 不可写。", nameof(resultProperty));
 
             var tResult = typeof(TResultProperty);
             var tSource = typeof(TSourceProperty);
@@ -146,7 +147,8 @@ namespace XMapper.Config
             {
                 ResultPropertyName = resultName,
                 ResultPropertyType = tResult,
-                SourcePropertyType = tSource
+                SourcePropertyType = tSource,
+                CanWrite = ((MemberExpression)resultProperty.Body).Member.CanWrite()
             };
             if (sourceProperty.Body.NodeType == ExpressionType.MemberAccess)
             {
@@ -227,8 +229,8 @@ namespace XMapper.Config
 
             var resultName = resultProperty.GetPropertyName();
 
-            if (!((MemberExpression)resultProperty.Body).Member.CanWrite())
-                throw Error.ArgumentException("指定的属性 " + resultName + " 不可写。", nameof(resultProperty));
+            //if (!((MemberExpression)resultProperty.Body).Member.CanWrite())
+            //    throw Error.ArgumentException("指定的属性 " + resultName + " 不可写。", nameof(resultProperty));
 
             var tResult = typeof(TProperty);
             var pair = new PropertyPair
@@ -236,7 +238,8 @@ namespace XMapper.Config
                 ResultPropertyName = resultName,
                 ResultPropertyType = tResult,
                 SourcePropertyType = tResult,
-                IsUseInstance = true
+                IsUseInstance = true,
+                CanWrite = ((MemberExpression)resultProperty.Body).Member.CanWrite()
             };
 
             pair.Instance = instance;

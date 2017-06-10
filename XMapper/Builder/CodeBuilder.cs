@@ -70,6 +70,11 @@ namespace XMapper.Builder
         {
             var ass = new List<string>();
 
+            if (type == null)
+            {
+                return ass;
+            }
+
             if (type.IsGenericType)
             {
                 ass.Add(type.GetGenericTypeDefinition().Assembly.Location);

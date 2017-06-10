@@ -89,7 +89,7 @@ namespace XMapper.Core
         /// </summary>
         /// <param name="source">源对象</param>
         /// <param name="target">目标对象</param>
-        public virtual void SetMapsCoreInner(TSource source, TTarget target)
+        protected virtual void SetMapsCoreInner(TSource source, TTarget target)
         {
         }
     }
