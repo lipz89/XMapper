@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7EBD676-248B-484A-A5CB-DF879670652A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Nelibur.ObjectMapper</RootNamespace>
+    <AssemblyName>TinyMapper</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Out\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Out\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 4.0|AnyCPU'">
+    <OutputPath>..\Out\Release\4.0\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
+    <OutputPath>..\Out\Release\3.5\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.0|AnyCPU'">
+    <OutputPath>..\Out\Release\3.0\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XDEBUG|AnyCPU'">
+    <OutputPath>..\Out\XDEBUG\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;XDEBUG</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 4.0|x64'">
+    <OutputPath>bin\x64\Release 4.0\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|x64'">
+    <OutputPath>bin\x64\Release 3.5\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.0|x64'">
+    <OutputPath>bin\x64\Release 3.0\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XDEBUG|x64'">
+    <OutputPath>bin\x64\XDEBUG\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;XDEBUG</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings\BindingConfig.cs" />
+    <Compile Include="Bindings\BindingConfigOf.cs" />
+    <Compile Include="Bindings\IBindingConfig.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitArray.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitString.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitThis.cs" />
+    <Compile Include="Core\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\MapperExtensions.cs" />
+    <Compile Include="Extensions\MapperTransfer.cs" />
+    <Compile Include="ITinyMapperConfig.cs" />
+    <Compile Include="IGlobalConfiguration.cs" />
+    <Compile Include="MapperCache.cs" />
+    <Compile Include="Mappers\Caches\ExpressionCache.cs" />
+    <Compile Include="Mappers\Caches\MapperStatic.cs" />
+    <Compile Include="Mappers\Classes\ClassMapper.cs" />
+    <Compile Include="Mappers\Classes\ClassMapperBuilder.cs" />
+    <Compile Include="Mappers\Collections\CollectionMapper.cs" />
+    <Compile Include="Mappers\Collections\CollectionMapperBuilder.cs" />
+    <Compile Include="Mappers\IMapperBuilderConfig.cs" />
+    <Compile Include="Mappers\MapperBuilder.cs" />
+    <Compile Include="Mappers\MapperOf.cs" />
+    <Compile Include="Mappers\Classes\Members\MappingMemberBuilder.cs" />
+    <Compile Include="Mappers\Classes\Members\MappingMember.cs" />
+    <Compile Include="Core\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Mappers\MappingException.cs" />
+    <Compile Include="Mappers\Types\Convertible\ConvertibleTypeMapper.cs" />
+    <Compile Include="Mappers\Types\Convertible\ConvertibleTypeMapperBuilder.cs" />
+    <Compile Include="Mappers\Types\Custom\CustomTypeMapper.cs" />
+    <Compile Include="Mappers\Types\Custom\CustomTypeMapperBuilder.cs" />
+    <Compile Include="Reflection\IDynamicAssembly.cs" />
+    <Compile Include="Mappers\Classes\Members\MemberMapper.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitBox.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitMethod.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitComposite.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitField.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitProperty.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitNewObj.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitNull.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitReturn.cs" />
+    <Compile Include="CodeGenerators\Emitters\IEmitter.cs" />
+    <Compile Include="CodeGenerators\Emitters\IEmitterType.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitArgument.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitLocalVariable.cs" />
+    <Compile Include="CodeGenerators\Emitters\EmitLocal.cs" />
+    <Compile Include="CodeGenerators\CodeGenerator.cs" />
+    <Compile Include="Reflection\DynamicAssemblyBuilder.cs" />
+    <Compile Include="Mappers\TargetMapperBuilder.cs" />
+    <Compile Include="Core\DataStructures\TypePair.cs" />
+    <Compile Include="TinyMapperConfig.cs" />
+    <Compile Include="TinyMapper.cs" />
+    <Compile Include="Core\Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="Mappers\Mapper.cs" />
+    <Compile Include="Core\Error.cs" />
+    <Compile Include="Core\DataStructures\Option.cs" />
+    <Compile Include="Core\Extensions\TypeExtensions.cs" />
+    <Compile Include="Core\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Core\Extensions\OptionExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TinyMapperException.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,10 @@
+D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Out\Debug\TinyMapper\4.5\TinyMapper.dll
+D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Out\Debug\TinyMapper\4.5\TinyMapper.pdb
+D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\obj\Debug\TinyMapper.csprojResolveAssemblyReference.cache
+D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\obj\Debug\TinyMapper.dll
+D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\obj\Debug\TinyMapper.pdb
+E:\git\XMapper\TinyMapper\obj\Debug\TinyMapper.csprojResolveAssemblyReference.cache
+E:\git\XMapper\TinyMapper\obj\Debug\TinyMapper.dll
+E:\git\XMapper\TinyMapper\obj\Debug\TinyMapper.pdb
+E:\git\XMapper\Out\Debug\TinyMapper.dll
+E:\git\XMapper\Out\Debug\TinyMapper.pdb
