@@ -332,7 +332,7 @@ namespace XMapper.Core
             if (dic is TTarget)
                 return dic as TTarget;
 
-            var mapper = InnerDictionaruMapper<TTargetKey, TTargetItem, TTarget>.Mapper;
+            var mapper = InnerDictionaryMapper<TTargetKey, TTargetItem, TTarget>.Mapper;
             if (mapper != null)
             {
                 return mapper(dic);
@@ -377,12 +377,12 @@ namespace XMapper.Core
         }
         public static Func<List<TItem>, TTarget> Mapper { get; set; }
     }
-    static class InnerDictionaruMapper<TKey, TItem, TTarget> where TTarget : IDictionary<TKey, TItem>
+    static class InnerDictionaryMapper<TKey, TItem, TTarget> where TTarget : IDictionary<TKey, TItem>
     {
-        static InnerDictionaruMapper()
+        static InnerDictionaryMapper()
         {
-            InnerDictionaruMapper<TKey, TItem, ConcurrentDictionary<TKey, TItem>>.Mapper = x => new ConcurrentDictionary<TKey, TItem>(x);
-            InnerDictionaruMapper<TKey, TItem, ReadOnlyDictionary<TKey, TItem>>.Mapper = x => new ReadOnlyDictionary<TKey, TItem>(x);
+            InnerDictionaryMapper<TKey, TItem, ConcurrentDictionary<TKey, TItem>>.Mapper = x => new ConcurrentDictionary<TKey, TItem>(x);
+            InnerDictionaryMapper<TKey, TItem, ReadOnlyDictionary<TKey, TItem>>.Mapper = x => new ReadOnlyDictionary<TKey, TItem>(x);
         }
         public static Func<Dictionary<TKey, TItem>, TTarget> Mapper { get; set; }
     }

@@ -95,7 +95,7 @@ namespace XMapper.Config
         }
         public void MapDictionary<TKey,TItem,TTarget>(Func<Dictionary<TKey, TItem>, TTarget> mapper) where TTarget : IDictionary<TKey, TItem>
         {
-            InnerDictionaruMapper<TKey, TItem, TTarget>.Mapper = mapper;
+            InnerDictionaryMapper<TKey, TItem, TTarget>.Mapper = mapper;
         }
 
         /// <summary>
