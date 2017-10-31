@@ -13,51 +13,51 @@ namespace Nelibur.ObjectMapper.Extensions
         /// 改用TinyMapper
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TDestination"></typeparam>
+        /// <typeparam name="TTarget"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static TDestination MapTo<TSource, TDestination>(this TSource source) where TSource : class where TDestination : class
+        public static TTarget MapTo<TSource, TTarget>(this TSource source) where TSource : class where TTarget : class
         {
-            return TinyMapper.Map<TSource, TDestination>(source);
+            return TinyMapper.Map<TSource, TTarget>(source);
         }
 
-        public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination) where TSource : class where TDestination : class
+        public static TTarget MapTo<TSource, TTarget>(this TSource source, TTarget destination) where TSource : class where TTarget : class
         {
-            return TinyMapper.Map<TSource, TDestination>(source, destination);
+            return TinyMapper.Map<TSource, TTarget>(source, destination);
         }
         /// <summary>
         /// 改用TinyMapper
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TDestination"></typeparam>
+        /// <typeparam name="TTarget"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static IEnumerable<TDestination> MapTo<TSource, TDestination>(this IEnumerable<TSource> source) where TSource : class where TDestination : class
+        public static IEnumerable<TTarget> MapTo<TSource, TTarget>(this IEnumerable<TSource> source) where TSource : class where TTarget : class
         {
-            return TinyMapper.Map<TSource, TDestination>(source);
+            return TinyMapper.Map<TSource, TTarget>(source);
         }
 
         #region DTO表达式转换成Domain表达式
 
-        public static Expression<Func<T, bool>> Transfer<DTO, T>(this Expression<Func<DTO, bool>> exp)
+        public static Expression<Func<TTarget, bool>> Transfer<TSource, TTarget>(this Expression<Func<TSource, bool>> exp)
         {
-            var p = Expression.Parameter(typeof(T), "t");
-            return exp.RepalceParameter<DTO, T, Func<T, bool>>(p);
+            var p = Expression.Parameter(typeof(TTarget), "t");
+            return exp.RepalceParameter<TSource, TTarget, Func<TTarget, bool>>(p);
         }
-        public static Expression<Func<T, TR>> Transfer<DTO, T, TR>(this Expression<Func<DTO, TR>> exp)
+        public static Expression<Func<TTarget, TProperty>> Transfer<TSource, TTarget, TProperty>(this Expression<Func<TSource, TProperty>> exp)
         {
-            var p = Expression.Parameter(typeof(T), "t");
-            return exp.RepalceParameter<DTO, T, Func<T, TR>>(p);
+            var p = Expression.Parameter(typeof(TTarget), "t");
+            return exp.RepalceParameter<TSource, TTarget, Func<TTarget, TProperty>>(p);
         }
-        public static Expression<Predicate<T>> Transfer<DTO, T>(this Expression<Predicate<DTO>> exp)
+        public static Expression<Predicate<TTarget>> Transfer<TSource, TTarget>(this Expression<Predicate<TSource>> exp)
         {
-            var p = Expression.Parameter(typeof(T), "t");
-            return exp.RepalceParameter<DTO, T, Predicate<T>>(p);
+            var p = Expression.Parameter(typeof(TTarget), "t");
+            return exp.RepalceParameter<TSource, TTarget, Predicate<TTarget>>(p);
         }
 
-        private static List<MappingMember> GetMaps<DTO, T>()
+        private static List<MappingMember> GetMaps<TSource, TTarget>()
         {
-            var maps = TinyMapper.GetMemberBinding<DTO, T>()?.Where(x => x.IsMemberMapping).ToList();
+            var maps = TinyMapper.GetMemberBinding<TSource, TTarget>()?.Where(x => x.IsMemberMapping).ToList();
             if (maps == null)
             {
                 return new List<MappingMember>();
@@ -66,16 +66,16 @@ namespace Nelibur.ObjectMapper.Extensions
             return maps;
         }
 
-        private static Expression<TDelegate> RepalceParameter<DTO, T, TDelegate>(this LambdaExpression exp, ParameterExpression parameter)
+        private static Expression<TDelegate> RepalceParameter<TSource, TTarget, TDelegate>(this LambdaExpression exp, ParameterExpression parameter)
         {
             if (exp == null)
             {
                 return null;
             }
 
-            var maps = GetMaps<DTO, T>();
+            var maps = GetMaps<TSource, TTarget>();
 
-            var body = MapperTransfer<DTO, T>.RepalceParameter(exp.Body, parameter, maps);
+            var body = MapperTransfer<TSource, TTarget>.RepalceParameter(exp.Body, parameter, maps);
             return Expression.Lambda<TDelegate>(body, parameter);
         }
 

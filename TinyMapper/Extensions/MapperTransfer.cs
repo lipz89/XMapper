@@ -8,7 +8,7 @@ using Nelibur.ObjectMapper.Mappers.Classes.Members;
 
 namespace Nelibur.ObjectMapper.Extensions
 {
-    public class MapperTransfer<DTO, T> : ExpressionVisitor
+    public class MapperTransfer<TSource, TTarget> : ExpressionVisitor
     {
         private readonly ParameterExpression parameter;
         private readonly List<MappingMember> maps;
@@ -23,7 +23,7 @@ namespace Nelibur.ObjectMapper.Extensions
         {
             try
             {
-                var transfer = new MapperTransfer<DTO, T>(parameter, maps);
+                var transfer = new MapperTransfer<TSource, TTarget>(parameter, maps);
                 return transfer.Visit(expression);
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace Nelibur.ObjectMapper.Extensions
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (node.Type == typeof(DTO))
+            if (node.Type == typeof(TSource))
             {
                 return parameter;
             }
@@ -57,9 +57,9 @@ namespace Nelibur.ObjectMapper.Extensions
             }
 
             //映射属性访问
-            if (node.Member.ReflectedType.IsAssignableFrom(typeof(DTO)))
+            if (node.Member.ReflectedType.IsAssignableFrom(typeof(TSource)))
             {
-                if (expTarget.Type == typeof(T))
+                if (expTarget.Type == typeof(TTarget))
                 {
                     var map = maps.FirstOrDefault(x => x.Source == node.Member || (x.Source.Name == node.Member.Name && x.Source.GetMemberType() == node.Member.GetMemberType()));
                     if (map != null)
@@ -74,10 +74,10 @@ namespace Nelibur.ObjectMapper.Extensions
                         }
                         else if (map.Ignored)
                         {
-                            throw new Exception("使用的成员" + typeof(DTO).FullName + "." + node.Member.Name + "已被忽略。");
+                            throw new Exception("使用的成员" + typeof(TSource).FullName + "." + node.Member.Name + "已被忽略。");
                         }
 
-                        throw new Exception("成员" + typeof(DTO).FullName + "." + node.Member.Name + "的映射关系不可转换为表达式。");
+                        throw new Exception("成员" + typeof(TSource).FullName + "." + node.Member.Name + "的映射关系不可转换为表达式。");
                     }
 
                     return Expression.MakeMemberAccess(expTarget, node.Member);
@@ -91,10 +91,10 @@ namespace Nelibur.ObjectMapper.Extensions
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            if (node.Method.ReflectedType.IsAssignableFrom(typeof(DTO)))
+            if (node.Method.ReflectedType.IsAssignableFrom(typeof(TSource)))
             {
                 var name = node.Method.Name;
-                var pi = typeof(T).GetMethod(name);
+                var pi = typeof(TTarget).GetMethod(name);
                 var pps = node.Arguments.Select(this.Visit);
                 return Expression.Call(parameter, pi, pps);
             }
@@ -103,7 +103,7 @@ namespace Nelibur.ObjectMapper.Extensions
 
         protected override Expression VisitNew(NewExpression node)
         {
-            if (node.Type == typeof(DTO))
+            if (node.Type == typeof(TSource))
             {
                 throw new Exception("请勿在DTO相关表达式中使用DTO类型的构造函数。");
                 //var contructor = typeof(T).GetConstructor(Type.EmptyTypes);
@@ -118,9 +118,9 @@ namespace Nelibur.ObjectMapper.Extensions
 
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            if (node.Type == typeof(DTO) && node.Value == null)
+            if (node.Type == typeof(TSource) && node.Value == null)
             {
-                return Expression.Constant(null, typeof(T));
+                return Expression.Constant(null, typeof(TTarget));
             }
             return base.VisitConstant(node);
         }
