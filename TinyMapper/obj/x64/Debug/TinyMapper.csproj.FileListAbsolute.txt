@@ -1,4 +1,0 @@
-D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\bin\x64\Debug\TinyMapper.dll
-D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\bin\x64\Debug\TinyMapper.pdb
-D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\obj\x64\Debug\TinyMapper.dll
-D:\projects\SCM\框架代码\Winning.Framework.DMSP\ThirdParts\TinyMapper\Source\TinyMapper\obj\x64\Debug\TinyMapper.pdb
